@@ -1,0 +1,246 @@
+{
+    "policies": [
+        {
+            "FlowCallout": {
+                "_attributes": {
+                    "async": "false",
+                    "continueOnError": "false",
+                    "enabled": "true",
+                    "name": "SF-Push-Logs-To-ELK"
+                },
+                "DisplayName": {
+                    "_text": "SF-Push-Logs-To-ELK"
+                },
+                "FaultRules": {},
+                "Properties": {},
+                "SharedFlowBundle": {
+                    "_text": "SF-Push-Logs-To-ELK"
+                }
+            }
+        },
+        {
+            "FlowCallout": {
+                "_attributes": {
+                    "async": "false",
+                    "continueOnError": "false",
+                    "enabled": "true",
+                    "name": "SF-Retrieve-Backend-Authorization"
+                },
+                "DisplayName": {
+                    "_text": "SF-Retrieve-Backend-Authorization"
+                },
+                "FaultRules": {},
+                "Parameters": {
+                    "Parameter": [
+                        {
+                            "_attributes": {
+                                "name": "sf-retrieve-credentials.kvm",
+                                "value": "KVM-name"
+                            }
+                        },
+                        {
+                            "_attributes": {
+                                "name": "sf-retrieve-credentials.key",
+                                "value": "key-name"
+                            }
+                        }
+                    ]
+                },
+                "Properties": {},
+                "SharedFlowBundle": {
+                    "_text": "SF-Retrieve-Credentials"
+                }
+            }
+        }
+    ],
+    "proxy": {
+        "ProxyEndpoint": {
+            "_attributes": {
+                "name": "default"
+            },
+            "Description": {},
+            "DefaultFaultRule": {},
+            "PreFlow": {
+                "_attributes": {
+                    "name": "PreFlow"
+                },
+                "Request": {},
+                "Response": {}
+            },
+            "PostFlow": {
+                "_attributes": {
+                    "name": "PostFlow"
+                },
+                "Request": {},
+                "Response": {}
+            },
+            "PostClientFlow": {
+                "Request": {},
+                "Response": {
+                    "Step": {
+                        "Name": {
+                            "_text": "SF-Push-Logs-To-ELK"
+                        }
+                    }
+                }
+            },
+            "Flows": {
+                "Flow": {
+                    "_attributes": {
+                        "name": "ServiceResourceNotAvailable"
+                    },
+                    "Description": {},
+                    "Request": {
+                        "Step": {
+                            "Name": {
+                                "_text": "Service-Resource-Not-Available"
+                            }
+                        }
+                    },
+                    "Response": {},
+                    "Condition": {
+                        "_text": "(true)"
+                    }
+                }
+            },
+            "HTTPProxyConnection": {
+                "BasePath": {
+                    "_text": "/"
+                },
+                "Properties": {},
+                "VirtualHost": [
+                    {
+                        "_text": "default"
+                    },
+                    {
+                        "_text": "internal"
+                    }
+                ]
+            },
+            "RouteRule": {
+                "_attributes": {
+                    "name": "default"
+                },
+                "TargetEndpoint": {
+                    "_text": "default"
+                }
+            }
+        }
+    },
+    "targets": [
+        {
+            "TargetEndpoint": {
+                "_attributes": {
+                    "name": "default"
+                },
+                "Description": {},
+                "DefaultFaultRule": {},
+                "PreFlow": {
+                    "_attributes": {
+                        "name": "PreFlow"
+                    },
+                    "Request": {
+                        "Step": {
+                            "Name": {
+                                "_text": "SF-Retrieve-Backend-Authorization"
+                            }
+                        }
+                    },
+                    "Response": {}
+                },
+                "PostFlow": {
+                    "_attributes": {
+                        "name": "PostFlow"
+                    },
+                    "Request": {},
+                    "Response": {}
+                },
+                "Flows": {},
+                "HTTPTargetConnection": {
+                    "LoadBalancer": {
+                        "Server": {
+                            "_attributes": {
+                                "name": "TARGET_SERVER"
+                            }
+                        }
+                    },
+                    "_comment": "<Path>/api</Path>"
+                }
+            }
+        }
+    ],
+    "tags": {
+        "projectName": {
+            "tag1": {
+                "request": [
+                    {
+                        "Condition": "",
+                        "policy": {
+                            "FlowCallout": {
+                                "_attributes": {
+                                    "async": "false",
+                                    "continueOnError": "false",
+                                    "enabled": "true",
+                                    "name": "EXAMPLE"
+                                },
+                                "DisplayName": {
+                                    "_text": "EXAMPLE"
+                                },
+                                "FaultRules": {},
+                                "Properties": {},
+                                "SharedFlowBundle": {
+                                    "_text": "EXAMPLE"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "response": []
+            }
+        }
+    },
+    "security": {
+        "OAuth" : {
+            "Condition": "",
+            "policy": {
+                "FlowCallout": {
+                    "_attributes": {
+                        "async": "false",
+                        "continueOnError": "false",
+                        "enabled": "true",
+                        "name": "OAuth"
+                    },
+                    "DisplayName": {
+                        "_text": "OAuth"
+                    },
+                    "FaultRules": {},
+                    "Properties": {},
+                    "SharedFlowBundle": {
+                        "_text": "OAuth"
+                    }
+                }
+            }
+        },
+        "BasicAuth": {
+            "Condition": "(virtualhost.name = \"internal\")",
+            "policy": {
+                "FlowCallout": {
+                    "_attributes": {
+                        "async": "false",
+                        "continueOnError": "false",
+                        "enabled": "true",
+                        "name": "OAuth"
+                    },
+                    "DisplayName": {
+                        "_text": "OAuth"
+                    },
+                    "FaultRules": {},
+                    "Properties": {},
+                    "SharedFlowBundle": {
+                        "_text": "OAuth"
+                    }
+                }
+            }
+        }
+    }
+}

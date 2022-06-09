@@ -1,0 +1,36 @@
+{
+    "hostName" : "YOUR_APIGEE_MGMT_HOSTNAME",
+    "apiPathParameter" : "/v1/organizations/YOUR_ORG/apis/",
+    "Authorization" : "Basic YOUR_AUTH",
+    "DOWNLOAD_PATH": "./downloads/",
+    "openapi": {
+        "termsOfService": "",
+        "contact": {
+            "name": "API Support",
+            "email": "",
+            "url": ""
+        },
+        "servers": [
+            {
+                "url": ""
+            },
+            {
+                "url": ""
+            },
+            {
+                "url": ""
+            },
+            {
+                "url": ""
+            }
+        ]
+    },
+    "organizations": {
+        "download": {
+            "default": "playground-dev"
+        },
+        "upload": {
+            "default": "playground-dev"
+        }
+    }
+}
