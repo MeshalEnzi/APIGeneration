@@ -1,5 +1,5 @@
 # API Generation
-## The Fasts Way To Create Proxy
+## The Fastest Way To Expose APIs
 
 ### What is API Generation?
 API Generation is tool has been created by Integration team to help the team to develop APIs once it’s ready to expose it.
